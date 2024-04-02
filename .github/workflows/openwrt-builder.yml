@@ -65,12 +65,12 @@ jobs:
       run: |
         [ -e $FEEDS_CONF ] && mv $FEEDS_CONF openwrt/feeds.conf.default
         chmod +x $DIY_P1_SH
-        cd openwrt
+        cd lede
         $GITHUB_WORKSPACE/$DIY_P1_SH
 
     - name: 更新feeds
       run: |
-        cd openwrt
+        cd lede
         ./scripts/feeds update -a
         ./scripts/feeds install -a
         ./scripts/feeds install -a
@@ -88,7 +88,7 @@ jobs:
       run: |
         [ -e $CONFIG_FILE ] && mv $CONFIG_FILE openwrt/.config
         chmod +x $DIY_P2_SH
-        cd openwrt
+        cd lede
         $GITHUB_WORKSPACE/$DIY_P2_SH
 
     - name: SSH connection to Actions
@@ -101,7 +101,7 @@ jobs:
     - name: 下载文件
       id: package
       run: |
-        cd openwrt
+        cd lede
         make defconfig
         make download -j8
         find dl -size -1024c -exec ls -l {} \;
@@ -110,7 +110,7 @@ jobs:
     - name: 编译固件中
       id: compile
       run: |
-        cd openwrt
+        cd lede
         echo -e "$(nproc) thread compile"
         make -j$(nproc) || make -j1 || make -j1 V=s
         make package/index
@@ -140,7 +140,7 @@ jobs:
         mv -f openwrt/bin/targets/*/*/packages/*.ipk Packages
         tar -zcvf Packages.tar.gz Packages
         mv *.config *.tar.gz openwrt/bin/targets/*/*
-        cd openwrt/bin/targets/*/*
+        cd lede/bin/targets/*/*
         rm -rf *.json 
         rm -rf *.manifest 
         rm -rf packages
