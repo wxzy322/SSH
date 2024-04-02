@@ -63,7 +63,7 @@ jobs:
         
     - name: 更新 & 安装 feeds & 执行脚本
       run: |
-        [ -e $FEEDS_CONF ] && mv $FEEDS_CONF openwrt/feeds.conf.default
+        [ -e $FEEDS_CONF ] && mv $FEEDS_CONF lede/feeds.conf.default
         chmod +x $DIY_P1_SH
         cd lede
         $GITHUB_WORKSPACE/$DIY_P1_SH
@@ -77,16 +77,16 @@ jobs:
 
     #- name: 导入补丁
       #run: |
-         #[ -e files ] && mv files openwrt/files
+         #[ -e files ] && mv files lede/files
          
     - name: 导入files文件夹
       run: |
-         [ -e ./scripts/files ] && mv ./scripts/files openwrt/files  
-         chmod +x openwrt/files   
+         [ -e ./scripts/files ] && mv ./scripts/files lede/files  
+         chmod +x lede/files   
 
     - name: 导入配置 & 下载文件
       run: |
-        [ -e $CONFIG_FILE ] && mv $CONFIG_FILE openwrt/.config
+        [ -e $CONFIG_FILE ] && mv $CONFIG_FILE lede/.config
         chmod +x $DIY_P2_SH
         cd lede
         $GITHUB_WORKSPACE/$DIY_P2_SH
